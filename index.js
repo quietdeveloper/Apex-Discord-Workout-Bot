@@ -1,8 +1,12 @@
-// This is a rudemetary discord speech to text bot that took way too long to make 
+// An adaptation and original purpose of my discord speech to text bot
 // I apologize for what you are about to witness
 
+// map of work outs
 let workOut = new Map();
 workOut.set('one shot', '10 push ups');
+
+
+// work Outs done during the match
 let thisMatch = [];
 
 const Discord = require("discord.js");
@@ -97,9 +101,12 @@ client.on('message', msg => {
                   // turn all to lower case
                   transcription = transcription.toLowerCase();
 
+
+                  // check if game is over
                   if(isGameOver(transcription))
                   {
                     
+                    // say the work Outs
                     for(let value of thisMatch)
                     {
                         msg.channel.send(value, {tts: true});
@@ -108,6 +115,7 @@ client.on('message', msg => {
                   }
                   else
                   {
+                      // keep adding things to the workout after match
                     fillWork(transcription);
                   }
 
