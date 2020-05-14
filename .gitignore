@@ -12,6 +12,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 # Authentication Files
 auth
 
+
 # Runtime data
 pids
 *.pid

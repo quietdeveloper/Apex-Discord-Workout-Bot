@@ -1,6 +1,10 @@
 // This is a rudemetary discord speech to text bot that took way too long to make 
 // I apologize for what you are about to witness
 
+let workOut = new Map();
+workOut.set('one shot', '10 push ups');
+let thisMatch = [];
+
 const Discord = require("discord.js");
 const fs = require('fs');
 
@@ -63,9 +67,9 @@ client.on('message', msg => {
             // try to optimize by checking which audio files actually have content
             audioStream.pipe(fs.createWriteStream(`${directory}/${cnt}user_audio`));
 
-            //console.log(cnt);
-            //console.log(q);
-            //console.log(q2);
+            console.log(cnt);
+            console.log(q);
+            console.log(q2);
 
 
             audioStream.on('end', () => {
@@ -86,8 +90,27 @@ client.on('message', msg => {
                 q2.push(q.shift());
 
                 // I'm not handleling all the promises so that may cause issues
-                trans(`${directory}/${q2[0]}user_audio.wav`, function () {
+                trans(`${directory}/${q2[0]}user_audio.wav`, function (transcription) {
+
                   q2.shift();
+
+                  // turn all to lower case
+                  transcription = transcription.toLowerCase();
+
+                  if(isGameOver(transcription))
+                  {
+                    
+                    for(let value of thisMatch)
+                    {
+                        msg.channel.send(value, {tts: true});
+                    }
+                    thisMatch = [];
+                  }
+                  else
+                  {
+                    fillWork(transcription);
+                  }
+
                 });
 
               }).run();
@@ -142,8 +165,8 @@ async function trans(filename, _callback) {
     .map(result => result.alternatives[0].transcript)
     .join('\n');
   console.log('Transcription: ', transcription);
-
-  _callback();
+  
+  _callback(transcription);
 
 }
 
@@ -159,4 +182,24 @@ function removeSoundFiles(directory) {
       });
     }
   });
+}
+
+// check if the transcript contains a workout for the phrase
+function fillWork(transcription)
+{
+  
+  for(let [key, value] of workOut)
+  {
+    if(transcription.includes(key) && !thisMatch.includes(value))
+    {
+      thisMatch.push(value);
+    }
+  }
+}
+
+// check if game is over
+// player needs to say 'game over'
+function isGameOver(transcription)
+{
+    return transcription.includes('game over');
 }
