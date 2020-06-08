@@ -9,11 +9,11 @@ Assuming everything is ready to go. (you got you discord bot and your google clo
 
 Get the bot to join your voice channel (!c).
 Play an apex game.
-When it's over say "game over".
-Then the bot will give you your workout rutine for the match :).
+When the mathc is over, say "game over".
+Then, the bot will give you your workout routine for the match :).
 (!dc) to disconnect the bot.
 
-The bot will basically listen to you and make a workout rutine based on what you say.
+The bot will listen to you and make a workout routine based on what you said during the match.
 Therefore, saying something like "He's on shot bro!!!!" will earn you 10 push ups.
 
 I don't plan on working on this meme too much. I am much more interested in optimizing the actual speech to text bot.
